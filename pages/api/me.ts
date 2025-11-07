@@ -9,19 +9,20 @@ const MOCK = {
   following_count: 1086,
   casts_count: 12,
   score: 0.75,
-  _note: "mock data (upstream unreachable or key missing)"
+  _note: "Mock data (upstream unreachable or key missing)"
 };
 
 export default async function handler(_: NextApiRequest, res: NextApiResponse) {
   const key = process.env.NEYNAR_API_KEY;
   if (!key) {
-    return res.status(200).json({ ...MOCK, _warning: "NEYNAR_API_KEY missing (using mock)" });
+    return res.status(200).json({ ...MOCK, _warning: "NEYNAR_API_KEY missing — using mock" });
   }
 
   try {
     const response = await fetch(`https://api.neynar.xyz/farcaster/fids/${TARGET_FID}`, {
       headers: { Authorization: `Bearer ${key}` },
     });
+
     const text = await response.text();
     try {
       const data = JSON.parse(text);
